@@ -30,6 +30,7 @@ import input_data
 import tensorflow as tf
 
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 from mnist_demo import * 
 
@@ -53,12 +54,12 @@ cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 
 # Train
-tf.initialize_all_variables().run()
+tf.global_variables_initializer().run()
 # print(tf.argmax(W,1).eval())
 for i in range(1000):
-  batch_xs, batch_ys = mnist.train.next_batch(100)
-  # print(tf.argmax(W,1).eval())
-  train_step.run({x: batch_xs, y_: batch_ys})
+    batch_xs, batch_ys = mnist.train.next_batch(100)
+    # print(tf.argmax(W,1).eval())
+    train_step.run({x: batch_xs, y_: batch_ys})
 
   # break
 
@@ -73,23 +74,23 @@ dir_name="test_num"
 files = os.listdir(dir_name)
 cnt=len(files)
 for i in range(cnt):
-  files[i]=dir_name+"/"+files[i]
-  # print(files[i])
-  test_images1,test_labels1=GetImage([files[i]])
-  # print (tf.cast(correct_prediction, tf.float32).eval)
-  # print(shape(test_images1))
-  mnist.test = input_data.DataSet(test_images1, test_labels1, dtype=tf.float32)
-  res=accuracy.eval({x: mnist.test.images, y_: mnist.test.labels})
+    files[i]=dir_name+"/"+files[i]
+    # print(files[i])
+    test_images1,test_labels1=GetImage([files[i]])
+    # print (tf.cast(correct_prediction, tf.float32).eval)
+    # print(shape(test_images1))
+    mnist.test = input_data.DataSet(test_images1, test_labels1, dtype=tf.float32)
+    res=accuracy.eval({x: mnist.test.images, y_: mnist.test.labels})
 
-  # print(shape(mnist.test.images))
-  # print (tf.argmax(y, 1))
-  # print(y.eval())
-  print("output:",int(res[0]))
-  print("\n")
-  # if(res==1):
-  #   print("correct!\n")
-  # else:
-  #   print("wrong!\n")
+    # print(shape(mnist.test.images))
+    # print (tf.argmax(y, 1))
+    # print(y.eval())
+    print("output:",int(res[0]))
+    print("\n")
+    # if(res==1):
+    #   print("correct!\n")
+    # else:
+    #   print("wrong!\n")
 
-  # print("input:",files[i].strip().split('/')[1][0])
+    # print("input:",files[i].strip().split('/')[1][0])
 

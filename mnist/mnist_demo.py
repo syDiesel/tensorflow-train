@@ -1,4 +1,4 @@
-import Image
+from PIL import Image
 from numpy import *
 
 def RGB2Grey(R,G,B):
